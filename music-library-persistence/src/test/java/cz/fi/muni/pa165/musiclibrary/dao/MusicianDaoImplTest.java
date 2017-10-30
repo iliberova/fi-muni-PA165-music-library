@@ -14,6 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -54,6 +55,11 @@ public class MusicianDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(musicianDao.findById(daya.getId()), daya);
     }
     
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void testCreateNullMusician() {
+        musicianDao.create(null);
+    }
+    
     @Test
     public void testUpdate() {
         musicianDao.create(daya);
@@ -64,6 +70,12 @@ public class MusicianDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(currentDaya, daya);
         Assert.assertEquals(currentDaya.getName(),daya.getName());
         Assert.assertNotEquals(oldName, currentDaya.getName());
+    }
+    
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void testUpdateNullMusician() {
+        musicianDao.create(daya);
+        musicianDao.update(null);
     }
     
     @Test
@@ -80,10 +92,25 @@ public class MusicianDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(musicianDao.findById(daya.getId()), daya);
     }
     
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void testFindByIdNotInDB() {
+        musicianDao.findById(muse.getId());
+    }
+    
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void testFindByNullId() {
+        musicianDao.findById(null);
+    }
+    
     @Test
     public void testFindByName() {
         musicianDao.create(taylor_swift);
         Assert.assertEquals(musicianDao.findByName("Taylor").get(0), taylor_swift);
+    }
+    
+    @Test
+    public void testFindByNameNotInDB() {
+        Assert.assertTrue(musicianDao.findByName("Taylor").isEmpty());
     }
     
     @Test
