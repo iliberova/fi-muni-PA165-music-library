@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -158,14 +159,18 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testFindByTitle() {
-        List<Album> albums = albumDao.findByTitle("Testovaci album");
+        List<String> pattern = new ArrayList<>();
+        pattern.add("Testovaci album");
+        List<Album> albums = albumDao.findByTitle(pattern);
         Assert.assertEquals(albums.size(), 1);
         Assert.assertTrue(albums.contains(a));
     }
 
     @Test
     public void testWithNonExistingTitle() {
-        List<Album> albums = albumDao.findByTitle("avdsfa");
+        List<String> pattern = new ArrayList<>();
+        pattern.add("avdsfa");
+        List<Album> albums = albumDao.findByTitle(pattern);
         Assert.assertEquals(albums.size(), 0);
         Assert.assertTrue(!albums.contains(a));
     }

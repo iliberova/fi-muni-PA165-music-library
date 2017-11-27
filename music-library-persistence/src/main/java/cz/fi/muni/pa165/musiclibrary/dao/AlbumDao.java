@@ -64,7 +64,7 @@ public interface AlbumDao {
 	 * @param titlePattern patter to be found
 	 * @return list of albums containing given pattern
 	 */
-	List<Album> findByTitle(String titlePattern);
+	List<Album> findByTitle(List<String> titlePattern);
 
 	/**
 	 * Returns all albums in database

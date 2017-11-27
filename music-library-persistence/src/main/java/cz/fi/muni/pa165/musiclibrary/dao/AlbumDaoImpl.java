@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,9 +70,24 @@ public class AlbumDaoImpl implements AlbumDao {
 	}
 
 	@Override
-	public List<Album> findByTitle(String titlePattern){
-		return em.createQuery("SELECT a FROM Album a WHERE a.title like :title ",
-				Album.class).setParameter("title", "%" + titlePattern + "%").getResultList();
+	public List<Album> findByTitle(List<String> titlePatterns){
+		StringBuilder queryBuilder = new StringBuilder("SELECT a FROM Album a");
+
+		for (int i = 0; i < titlePatterns.size(); i++) {
+			if (i == 0) {
+				queryBuilder.append(" WHERE");
+			} else {
+				queryBuilder.append(" AND");
+			}
+			queryBuilder.append(" a.title LIKE :pattern").append(i);
+		}
+
+		TypedQuery<Album> query = em.createQuery(queryBuilder.toString(), Album.class);
+
+		for (int i = 0; i < titlePatterns.size(); i++) {
+			query.setParameter("pattern" + i, titlePatterns.get(i));
+		}
+		return query.getResultList();
 	}
 
 	@Override
