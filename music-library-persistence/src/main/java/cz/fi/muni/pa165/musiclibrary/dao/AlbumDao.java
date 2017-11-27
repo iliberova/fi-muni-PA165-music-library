@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.musiclibrary.entity.Album;
 import cz.fi.muni.pa165.musiclibrary.entity.Genre;
 import cz.fi.muni.pa165.musiclibrary.entity.Musician;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,33 +14,33 @@ import java.util.List;
  */
 public interface AlbumDao {
 	/**
-	 * Create new album in database.
+	 * Create new album in database
 	 *
 	 * @param album that will be created
 	 */
-	public void create(Album album);
+	void create(Album album);
 
 	/**
-	 * Update album in database.
+	 * Update album in database
 	 *
 	 * @param album that will be modified
 	 */
-	public void update(Album album);
+	void update(Album album);
 
 	/**
-	 * Remove given album from database.
+	 * Remove given album from database
 	 *
 	 * @param album that will be removed
 	 */
-	public void remove(Album album);
+	void remove(Album album);
 
 	/**
-	 * Finds album in database with given id.
+	 * Finds album in database with given id
 	 *
 	 * @param id to be found
 	 * @return album with given id
 	 */
-	public Album findById(Long id);
+	Album findById(Long id);
 
 	/**
 	 * Returns all albums that contain song of given musician
@@ -47,28 +48,37 @@ public interface AlbumDao {
 	 * @param musician author of a song
 	 * @return list of albums that contain song of given musician
 	 */
-	public List<Album> findByMusician(Musician musician);
+	List<Album> findByMusician(Musician musician);
 
 	/**
-	 * Returns all albums that contain some song of given genre.
+	 * Returns all albums that contain some song of given genre
 	 *
 	 * @param genre of some song in album
 	 * @return list of albums that contain songs of given genre
 	 */
-	public List<Album> findByGenre(Genre genre);
+	List<Album> findByGenre(Genre genre);
 
 	/**
-	 * Returns all albums that contain given patter in title.
+	 * Returns all albums that contain given patter in title
 	 *
 	 * @param titlePattern patter to be found
-	 * @return list of albums containing given pattern.
+	 * @return list of albums containing given pattern
 	 */
-	public List<Album> findByTitle(String titlePattern);
+	List<Album> findByTitle(String titlePattern);
 
 	/**
-	 * Returns all albums in database.
+	 * Returns all albums in database
 	 *
 	 * @return list of all albums
 	 */
-	public List<Album> findAll();
+	List<Album> findAll();
+
+	/**
+	 * Returns all albums released between given dates
+	 *
+	 * @param startDate first valid date
+	 * @param endDate last valid date
+	 * @return list of all albums that were released
+	 */
+	List<Album> getAlbumsReleasedBetween(Date startDate, Date endDate);
 }
