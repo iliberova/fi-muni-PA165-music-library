@@ -27,8 +27,9 @@ public class AlbumServiceImpl implements AlbumService {
 	private TimeService timeService;
 
 	@Override
-	public void create(Album album) {
+	public Album create(Album album) {
 		albumDao.create(album);
+		return album;
 	}
 
 	@Override
