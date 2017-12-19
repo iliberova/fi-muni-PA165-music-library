@@ -63,15 +63,22 @@ public class GenreController extends BaseController {
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 	public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes, Locale loc) {
 		GenreDTO genre = genreFacade.findById(id);
+
+		if (!albumFacade.findByGenre(genre.getId()).isEmpty()) {
+ 			String flashMessage = messageSource.getMessage("genres.delete.couldNotBeDeleted", null, loc);
+ 			redirectAttributes.addFlashAttribute("alert_danger", flashMessage);
+ 			return "redirect:/genre/list";
+ 		}
+
 		genreFacade.delete(id);
 		log.debug("delete({})", id);
-		redirectAttributes.addFlashAttribute("alert_success", String.format(messageSource.getMessage("genreMessage.successDelete", null, loc), genre.getName()));
+		redirectAttributes.addFlashAttribute("alert_success", String.format(messageSource.getMessage("genres.delete.deleted", null, loc), genre.getName()));
 		return "redirect:" + uriBuilder.path("/genre/list").toUriString();
 	}
 
-	@RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
-	public String view(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
-		log.debug("view({})", id);
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	public String detail(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
+		log.debug("detail({})", id);
 		GenreDTO genre = genreFacade.findById(id);
 
 		if (genre == null) {
@@ -82,7 +89,7 @@ public class GenreController extends BaseController {
 
 		model.addAttribute("genre", genre);
 		model.addAttribute("albums", albumFacade.findByGenre(id));
-		return "genre/view";
+		return "genre/detail";
 	}
 
 	/**
@@ -91,11 +98,11 @@ public class GenreController extends BaseController {
 	 * @param model data to be displayed
 	 * @return JSP page
 	 */
-	@RequestMapping(value = "/new", method = RequestMethod.GET)
-	public String newGenre(Model model) {
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String create(Model model) {
 		log.debug("new()");
 		model.addAttribute("genreCreate", new GenreCreateDTO());
-		return "genre/new";
+		return "genre/create";
 	}
 
 	/**
@@ -123,26 +130,26 @@ public class GenreController extends BaseController {
 				model.addAttribute(fe.getField() + "_error", true);
 				log.trace("FieldError: {}", fe);
 			}
-			return "genre/new";
+			return "genre/create";
 		}
 		//create product
 		Long id = genreFacade.create(formBean);
 		//report success
 		redirectAttributes.addFlashAttribute("alert_success", String.format(messageSource.getMessage("genreMessage.successAdd", null, loc), id));
-		return "redirect:" + uriBuilder.path("/genre/view/{id}").buildAndExpand(id).encode().toUriString();
+		return "redirect:" + uriBuilder.path("/genre/detail/{id}").buildAndExpand(id).encode().toUriString();
 	}
 
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String showUpdateGenreForm(@PathVariable long id, Model model) {
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String edit(@PathVariable long id, Model model) {
 		log.debug("update()");
 		GenreDTO genre = genreFacade.findById(id);
 		model.addAttribute("genre", genre);
 		model.addAttribute("genreUpdate", genre);
-		return "genre/update";
+		return "genre/edit";
 	}
 
-	@RequestMapping(value = "/saveUpdate", method = RequestMethod.POST)
-	public String update(@Valid @ModelAttribute("genreUpdate") GenreDTO formBean, BindingResult bindingResult,
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public String edit(@Valid @ModelAttribute("genreUpdate") GenreDTO formBean, BindingResult bindingResult,
 						 Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Locale loc) {
 		log.debug("update(genreUpdate={})", formBean);
 		//in case of validation error forward back to the the form
@@ -154,13 +161,13 @@ public class GenreController extends BaseController {
 				model.addAttribute(fe.getField() + "_error", true);
 				log.trace("FieldError: {}", fe);
 			}
-			return "genre/update";
+			return "genre/edit";
 		}
 		//update genre
 		genreFacade.update(formBean);
 		Long id = formBean.getId();
 		//report success
 		redirectAttributes.addFlashAttribute("alert_success", String.format(messageSource.getMessage("genreMessage.successEdit", null, loc), id));
-		return "redirect:" + uriBuilder.path("/genre/view/{id}").buildAndExpand(id).encode().toUriString();
+		return "redirect:" + uriBuilder.path("/genre/detail/{id}").buildAndExpand(id).encode().toUriString();
 	}
 }
