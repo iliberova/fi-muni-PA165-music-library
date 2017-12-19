@@ -61,7 +61,7 @@ public class SongController extends BaseController {
 	 * @return JSP page
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String newSong(@RequestParam(value = "albumId", defaultValue = "", required = false) String albumId, Model model) {
+	public String create(@RequestParam(value = "albumId", defaultValue = "", required = false) String albumId, Model model) {
 		SongCreateDTO song = new SongCreateDTO();
 		if (albumId!="") {
 			try {
@@ -120,7 +120,7 @@ public class SongController extends BaseController {
 	}
 
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public String view(@PathVariable long id, Model model) {
+	public String detail(@PathVariable long id, Model model) {
 		model.addAttribute("song", songFacade.findById(id));
 		return "song/detail";
 	}
