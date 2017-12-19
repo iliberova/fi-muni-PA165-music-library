@@ -63,14 +63,16 @@ public class GenreController extends BaseController {
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
 	public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes, Locale loc) {
 		GenreDTO genre = genreFacade.findById(id);
-		if (albumFacade.findByGenre(genre.getId()).isEmpty() == false) {
- 			String flashMessage = messageSource.getMessage("genre.delete.couldnotbydeleted", null, loc);
+
+		if (!albumFacade.findByGenre(genre.getId()).isEmpty()) {
+ 			String flashMessage = messageSource.getMessage("genres.delete.couldNotBeDeleted", null, loc);
  			redirectAttributes.addFlashAttribute("alert_danger", flashMessage);
  			return "redirect:/genre/list";
  		}
+
 		genreFacade.delete(id);
 		log.debug("delete({})", id);
-		redirectAttributes.addFlashAttribute("alert_success", String.format(messageSource.getMessage("genreMessage.successDelete", null, loc), genre.getName()));
+		redirectAttributes.addFlashAttribute("alert_success", String.format(messageSource.getMessage("genres.delete.deleted", null, loc), genre.getName()));
 		return "redirect:" + uriBuilder.path("/genre/list").toUriString();
 	}
 
