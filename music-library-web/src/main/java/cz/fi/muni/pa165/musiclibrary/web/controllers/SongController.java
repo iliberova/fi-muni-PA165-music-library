@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -61,16 +60,11 @@ public class SongController extends BaseController {
 	 * @return JSP page
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(@RequestParam(value = "albumId", defaultValue = "", required = false) String albumId, Model model) {
+	public String create(@RequestParam(value = "albumId", required = false) Long albumId, Model model) {
 		SongCreateDTO song = new SongCreateDTO();
-		if (albumId!="") {
-			try {
-			AlbumDTO album = albumFacade.findById(new Long(albumId));
-			if (album!=null)
-				song.setAlbumId(album.getId());
-			} catch (NumberFormatException e){
-				//
-			}
+
+		if (albumId != null) {
+			song.setAlbumId(albumId);
 		}
 		
 		model.addAttribute("songCreate", song);
