@@ -77,7 +77,7 @@ public class GenreController extends BaseController {
 	}
 
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public String view(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
+	public String detail(@PathVariable long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
 		log.debug("detail({})", id);
 		GenreDTO genre = genreFacade.findById(id);
 
@@ -99,7 +99,7 @@ public class GenreController extends BaseController {
 	 * @return JSP page
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String newGenre(Model model) {
+	public String create(Model model) {
 		log.debug("new()");
 		model.addAttribute("genreCreate", new GenreCreateDTO());
 		return "genre/create";
@@ -140,7 +140,7 @@ public class GenreController extends BaseController {
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String showUpdateGenreForm(@PathVariable long id, Model model) {
+	public String edit(@PathVariable long id, Model model) {
 		log.debug("update()");
 		GenreDTO genre = genreFacade.findById(id);
 		model.addAttribute("genre", genre);
@@ -149,7 +149,7 @@ public class GenreController extends BaseController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String update(@Valid @ModelAttribute("genreUpdate") GenreDTO formBean, BindingResult bindingResult,
+	public String edit(@Valid @ModelAttribute("genreUpdate") GenreDTO formBean, BindingResult bindingResult,
 						 Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Locale loc) {
 		log.debug("update(genreUpdate={})", formBean);
 		//in case of validation error forward back to the the form
