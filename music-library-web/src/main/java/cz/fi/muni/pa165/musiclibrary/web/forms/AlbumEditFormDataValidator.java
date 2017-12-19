@@ -21,8 +21,13 @@ public class AlbumEditFormDataValidator implements Validator {
 			errors.rejectValue("title", "AlbumEditFormDataValidator.title.required");
 		}
 
-		if (albumData.getReleaseDate() == null) {
-			errors.rejectValue("releaseDate", "AlbumEditFormDataValidator.releaseDate.required");
+		if (!albumData.isReleaseDateFilled()) {
+			errors.rejectValue("releaseDate", "AlbumEditFormValidator.releaseDate.required");
 		}
+
+		if (!albumData.isReleaseDateValid()) {
+			errors.rejectValue("releaseDate", "AlbumEditFormValidator.releaseDate.invalid");
+		}
+
 	}
 }

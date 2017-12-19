@@ -4,6 +4,8 @@ import cz.fi.muni.pa165.musiclibrary.dto.AlbumCreateDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,7 +13,7 @@ import java.util.Date;
  */
 public class AlbumCreateFormData {
 
-	private Date releaseDate;
+	private String releaseDate;
 
 	private String title;
 
@@ -19,11 +21,37 @@ public class AlbumCreateFormData {
 
 	private byte[] albumArt;
 
-	public Date getReleaseDate() {
-		return releaseDate;
+	boolean isReleaseDateFilled() {
+		return releaseDate != null && !releaseDate.isEmpty();
 	}
 
-	public void setReleaseDate(Date releaseDate) {
+	boolean isReleaseDateValid() {
+		try {
+			parseReleaseDate();
+			return true;
+		} catch (ParseException ex) {
+			return false;
+		}
+	}
+
+	private Date parseReleaseDate() throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		return dateFormat.parse(releaseDate);
+	}
+
+	private Date parseReleaseDateAndReturnNullIfNotValid() {
+		try {
+			return parseReleaseDate();
+		} catch (ParseException ex) {
+			return null;
+		}
+	}
+
+	public String getReleaseDate() {
+		return this.releaseDate;
+	}
+
+	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 
@@ -53,7 +81,7 @@ public class AlbumCreateFormData {
 
 	public AlbumCreateDTO toAlbumCreateDTO() {
 		AlbumCreateDTO albumCreateDTO = new AlbumCreateDTO();
-		albumCreateDTO.setReleaseDate(this.releaseDate);
+		albumCreateDTO.setReleaseDate(this.parseReleaseDateAndReturnNullIfNotValid());
 		albumCreateDTO.setTitle(this.title);
 		albumCreateDTO.setCommentary(this.commentary);
 		albumCreateDTO.setAlbumArt(this.albumArt);
