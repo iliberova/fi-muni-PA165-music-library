@@ -17,7 +17,7 @@
 			</button>
 		</form>
 		<h1>
-			<my:a href="/album/list"><fmt:message key="album.detail.albums"/></my:a> /
+			<my:a href="/album/list"><fmt:message key="albums.detail.albums"/></my:a> /
 			<c:out value="${album.title}"/>
 		</h1>
 	</div>
