@@ -25,7 +25,7 @@
 				   enctype="multipart/form-data">
 			<div class="form-group ${title_error ? 'has-error' : ''}">
 				<form:label path="title" cssClass="col-sm-2 control-label">
-					<fmt:message key="albums.edit.album.title"/>:
+					<fmt:message key="albums.edit.album.title"/>
 				</form:label>
 				<div class="col-sm-10">
 					<form:input path="title" cssClass="form-control"/>
@@ -34,7 +34,7 @@
 			</div>
 			<div class="form-group ${releaseDate_error ? 'has-error' : ''}">
 				<form:label path="releaseDate" cssClass="col-sm-2 control-label">
-					<fmt:message key="albums.edit.album.releaseDate"/>:
+					<fmt:message key="albums.edit.album.releaseDate"/>
 				</form:label>
 				<div class="col-sm-10">
 					<fmt:message key="albums.edit.album.releaseDate.placeholder" var="placeholder"/>
@@ -44,7 +44,7 @@
 			</div>
 			<div class="form-group ${albumArt_error ? 'has-error' : ''}">
 				<form:label path="albumArt" cssClass="col-sm-2 control-label">
-					<fmt:message key="albums.edit.album.albumArt"/>:
+					<fmt:message key="albums.edit.album.albumArt"/>
 				</form:label>
 				<div class="col-sm-10">
 					<form:input path="albumArt" type="file"/>
@@ -53,7 +53,7 @@
 			</div>
 			<div class="form-group ${commentary_error ? 'has-error' : ''}">
 				<form:label path="commentary" cssClass="col-sm-2 control-label">
-					<fmt:message key="albums.edit.album.commentary"/>:
+					<fmt:message key="albums.edit.album.commentary"/>
 				</form:label>
 				<div class="col-sm-10">
 					<form:input path="commentary" cssClass="form-control"/>
