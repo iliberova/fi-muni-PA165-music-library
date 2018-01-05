@@ -20,7 +20,9 @@ public interface GenreService {
 
 	Genre findById(Long id);
 
-	List<Genre> findByName(String query);
+	Genre findByName(String name);
+
+	List<Genre> findByNameLike(String query);
 
 	List<Genre> findAll();
 

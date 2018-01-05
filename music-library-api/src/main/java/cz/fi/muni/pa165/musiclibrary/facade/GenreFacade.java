@@ -20,7 +20,9 @@ public interface GenreFacade {
 
 	GenreDTO findById(Long id);
 
-	List<GenreDTO> findByName(String query);
+	GenreDTO findByName(String name);
+
+	List<GenreDTO> findByNameLike(String query);
 
 	List<GenreDTO> findAll();
 }

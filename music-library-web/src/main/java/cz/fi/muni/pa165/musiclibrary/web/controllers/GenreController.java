@@ -114,11 +114,11 @@ public class GenreController extends BaseController {
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		if (binder.getTarget() instanceof GenreCreateDTO) {
-			binder.addValidators(new GenreCreateDTOValidator());
+			binder.addValidators(new GenreCreateDTOValidator(genreFacade));
 		}
 
 		if (binder.getTarget() instanceof GenreDTO) {
-			binder.addValidators(new GenreDTOValidator());
+			binder.addValidators(new GenreDTOValidator(genreFacade));
 		}
 	}
 

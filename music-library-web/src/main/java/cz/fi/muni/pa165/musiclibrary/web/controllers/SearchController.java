@@ -60,7 +60,7 @@ public class SearchController extends BaseController {
 	 */
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
 	public String Search(@RequestParam(value = "searchTerm", defaultValue = "", required = false) String pSearchTerm, Model model, Locale loc) {
-		model.addAttribute("genres", genreFacade.findByName(pSearchTerm));
+		model.addAttribute("genres", genreFacade.findByNameLike(pSearchTerm));
 		model.addAttribute("musicians", musicianFacade.findByName(pSearchTerm));
 		model.addAttribute("songs", songFacade.findByTitle(pSearchTerm));
 		model.addAttribute("albums", albumFacade.findByTitle(pSearchTerm));

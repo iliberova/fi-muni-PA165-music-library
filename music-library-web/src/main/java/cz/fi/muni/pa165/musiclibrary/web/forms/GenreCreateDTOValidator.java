@@ -1,6 +1,8 @@
 package cz.fi.muni.pa165.musiclibrary.web.forms;
 
 import cz.fi.muni.pa165.musiclibrary.dto.GenreCreateDTO;
+import cz.fi.muni.pa165.musiclibrary.dto.GenreDTO;
+import cz.fi.muni.pa165.musiclibrary.facade.GenreFacade;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -8,6 +10,12 @@ import org.springframework.validation.Validator;
  * @author Tomas Kovarik
  */
 public class GenreCreateDTOValidator implements Validator {
+
+	private final GenreFacade genreFacade;
+
+	public GenreCreateDTOValidator(GenreFacade genreFacade) {
+		this.genreFacade = genreFacade;
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -20,6 +28,12 @@ public class GenreCreateDTOValidator implements Validator {
 
 		if (genreCreateDTO.getName() == null || genreCreateDTO.getName().isEmpty()) {
 			errors.rejectValue("name", "GenreCreateDTOValidator.name.required");
+		}
+
+		GenreDTO existingGenre = genreFacade.findByName(genreCreateDTO.getName());
+
+		if (existingGenre != null) {
+			errors.rejectValue("name", "GenreCreateDTOValidator.name.alreadyExists");
 		}
 	}
 }
