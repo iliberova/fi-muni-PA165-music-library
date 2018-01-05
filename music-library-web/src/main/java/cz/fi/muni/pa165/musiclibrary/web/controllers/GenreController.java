@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.musiclibrary.dto.GenreDTO;
 import cz.fi.muni.pa165.musiclibrary.facade.AlbumFacade;
 import cz.fi.muni.pa165.musiclibrary.facade.GenreFacade;
 import cz.fi.muni.pa165.musiclibrary.web.forms.GenreCreateDTOValidator;
+import cz.fi.muni.pa165.musiclibrary.web.forms.GenreDTOValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +114,11 @@ public class GenreController extends BaseController {
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		if (binder.getTarget() instanceof GenreCreateDTO) {
-			binder.addValidators(new GenreCreateDTOValidator());
+			binder.addValidators(new GenreCreateDTOValidator(genreFacade));
+		}
+
+		if (binder.getTarget() instanceof GenreDTO) {
+			binder.addValidators(new GenreDTOValidator(genreFacade));
 		}
 	}
 
@@ -148,9 +153,16 @@ public class GenreController extends BaseController {
 		return "genre/edit";
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String edit(@Valid @ModelAttribute("genreUpdate") GenreDTO formBean, BindingResult bindingResult,
-						 Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Locale loc) {
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String edit(
+		@PathVariable long id,
+		@Valid @ModelAttribute("genreUpdate") GenreDTO formBean,
+		BindingResult bindingResult,
+		Model model,
+		RedirectAttributes redirectAttributes,
+		UriComponentsBuilder uriBuilder,
+		Locale loc
+	) {
 		log.debug("update(genreUpdate={})", formBean);
 		//in case of validation error forward back to the the form
 		if (bindingResult.hasErrors()) {
@@ -161,12 +173,14 @@ public class GenreController extends BaseController {
 				model.addAttribute(fe.getField() + "_error", true);
 				log.trace("FieldError: {}", fe);
 			}
+
+			GenreDTO genre = genreFacade.findById(id);
+			model.addAttribute("genre", genre);
 			return "genre/edit";
 		}
-		//update genre
+
 		genreFacade.update(formBean);
-		Long id = formBean.getId();
-		//report success
+
 		redirectAttributes.addFlashAttribute("alert_success", String.format(messageSource.getMessage("genreMessage.successEdit", null, loc), id));
 		return "redirect:" + uriBuilder.path("/genre/detail/{id}").buildAndExpand(id).encode().toUriString();
 	}

@@ -131,13 +131,14 @@ public class AlbumController extends BaseController {
 		}
 
 		model.addAttribute("album", album);
+		model.addAttribute("albumForm", AlbumEditFormData.fromAlbumDTO(album));
 		return "album/edit";
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(
 		@PathVariable long id,
-		@Valid @ModelAttribute("album") AlbumEditFormData albumData,
+		@Valid @ModelAttribute("albumForm") AlbumEditFormData albumData,
 		BindingResult bindingResult,
 		Model model,
 		RedirectAttributes redirectAttributes,
@@ -145,7 +146,7 @@ public class AlbumController extends BaseController {
 		Locale locale
 	) {
 		log.debug("edit({}, {})", id, albumData);
-		AlbumDTO album = albumFacade.findById(id);
+		AlbumDTO modifiedAlbum = albumFacade.findById(id);
 
 		if (bindingResult.hasErrors()) {
 			for (ObjectError error : bindingResult.getGlobalErrors()) {
@@ -155,15 +156,18 @@ public class AlbumController extends BaseController {
 				model.addAttribute(error.getField() + "_error", true);
 				log.trace("FieldError: {}", error);
 			}
+
+			AlbumDTO album = albumFacade.findById(id);
+			model.addAttribute("album", album);
 			return "album/edit";
 		}
 
-		albumData.updateAlbumDTO(album);
-		albumFacade.update(album);
+		albumData.updateAlbumDTO(modifiedAlbum);
+		albumFacade.update(modifiedAlbum);
 
 		String flashMessage = messageSource.getMessage(
 			"albums.edit.saved",
-			new Object[]{album.getTitle()},
+			new Object[]{modifiedAlbum.getTitle()},
 			locale
 		);
 
@@ -202,11 +206,11 @@ public class AlbumController extends BaseController {
 	@SuppressWarnings("unused")
 	protected void initBinder(WebDataBinder binder) {
 		if (binder.getTarget() instanceof AlbumCreateFormData) {
-			binder.addValidators(new AlbumCreateFormDataValidator());
+			binder.addValidators(new AlbumCreateFormDataValidator(albumFacade));
 		}
 
 		if (binder.getTarget() instanceof AlbumEditFormData) {
-			binder.addValidators(new AlbumEditFormDataValidator());
+			binder.addValidators(new AlbumEditFormDataValidator(albumFacade));
 		}
 	}
 }

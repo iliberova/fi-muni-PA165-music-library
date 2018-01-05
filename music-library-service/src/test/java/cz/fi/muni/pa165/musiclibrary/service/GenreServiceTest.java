@@ -76,9 +76,9 @@ public class GenreServiceTest extends AbstractTestNGSpringContextTests {
 
 		List<Genre> genres = Arrays.asList(genre1, genre2);
 
-		when(genreDao.findByName(Arrays.asList("%rock%"))).thenReturn(genres);
+		when(genreDao.findByNameLike(Arrays.asList("%rock%"))).thenReturn(genres);
 
-		Assert.assertSame(genres, genreService.findByName("rock"));
+		Assert.assertSame(genres, genreService.findByNameLike("rock"));
 	}
 
 	@Test
@@ -88,9 +88,9 @@ public class GenreServiceTest extends AbstractTestNGSpringContextTests {
 
 		List<Genre> genres = Arrays.asList(genre1, genre2);
 
-		when(genreDao.findByName(new ArrayList<>())).thenReturn(genres);
+		when(genreDao.findByNameLike(new ArrayList<>())).thenReturn(genres);
 
-		Assert.assertSame(genres, genreService.findByName(""));
+		Assert.assertSame(genres, genreService.findByNameLike(""));
 	}
 
 	@Test

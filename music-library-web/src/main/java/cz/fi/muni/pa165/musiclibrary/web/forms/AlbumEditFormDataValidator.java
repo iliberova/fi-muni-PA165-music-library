@@ -1,12 +1,22 @@
 package cz.fi.muni.pa165.musiclibrary.web.forms;
 
+import cz.fi.muni.pa165.musiclibrary.dto.AlbumDTO;
+import cz.fi.muni.pa165.musiclibrary.facade.AlbumFacade;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
+import java.util.Objects;
 
 /**
  * @author Jan-Sebastian Fabik
  */
 public class AlbumEditFormDataValidator implements Validator {
+
+	private final AlbumFacade albumFacade;
+
+	public AlbumEditFormDataValidator(AlbumFacade albumFacade) {
+		this.albumFacade = albumFacade;
+	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -21,12 +31,18 @@ public class AlbumEditFormDataValidator implements Validator {
 			errors.rejectValue("title", "AlbumEditFormDataValidator.title.required");
 		}
 
+		AlbumDTO existingAlbum = albumFacade.findByTitle(albumData.getTitle());
+
+		if (existingAlbum != null && !Objects.equals(existingAlbum.getId(), albumData.getId())) {
+			errors.rejectValue("title", "AlbumEditFormDataValidator.title.alreadyExists");
+		}
+
 		if (!albumData.isReleaseDateFilled()) {
-			errors.rejectValue("releaseDate", "AlbumEditFormValidator.releaseDate.required");
+			errors.rejectValue("releaseDate", "AlbumEditFormDataValidator.releaseDate.required");
 		}
 
 		if (!albumData.isReleaseDateValid()) {
-			errors.rejectValue("releaseDate", "AlbumEditFormValidator.releaseDate.invalid");
+			errors.rejectValue("releaseDate", "AlbumEditFormDataValidator.releaseDate.invalid");
 		}
 
 	}

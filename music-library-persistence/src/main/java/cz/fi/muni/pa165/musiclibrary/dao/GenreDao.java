@@ -41,12 +41,20 @@ public interface GenreDao {
 	Genre findById(Long id);
 
 	/**
+	 * Gets a genre which has the given name.
+	 *
+	 * @param name the name
+	 * @return the genre, or null if does not exist
+	 */
+	Genre findByName(String name);
+
+	/**
 	 * Gets genres which contain the given pattern in the name.
 	 *
 	 * @param patterns patterns to be found
 	 * @return the genres
 	 */
-	List<Genre> findByName(List<String> patterns);
+	List<Genre> findByNameLike(List<String> patterns);
 
 	/**
 	 * Gets all genres.

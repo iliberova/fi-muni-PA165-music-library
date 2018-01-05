@@ -96,7 +96,7 @@ public class GenreFacadeImplTest extends AbstractTestNGSpringContextTests {
 		Genre genre1 = createSampleGenre("Rock test");
 		Genre genre2 = createSampleGenre("Classic Rock");
 
-		List<GenreDTO> genreDTOs = genreFacade.findByName("Rock");
+		List<GenreDTO> genreDTOs = genreFacade.findByNameLike("Rock");
 
 		Assert.assertEquals(2, genreDTOs.size());
 		Assert.assertEquals(genre1.getId(), genreDTOs.get(0).getId());
@@ -110,7 +110,7 @@ public class GenreFacadeImplTest extends AbstractTestNGSpringContextTests {
 		Genre genre1 = createSampleGenre("Rock");
 		Genre genre2 = createSampleGenre("Classic Rock");
 
-		List<GenreDTO> genreDTOs = genreFacade.findByName("");
+		List<GenreDTO> genreDTOs = genreFacade.findByNameLike("");
 
 		Assert.assertEquals(2, genreDTOs.size());
 		Assert.assertEquals(genre1.getId(), genreDTOs.get(0).getId());

@@ -62,9 +62,14 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	@Override
-	public List<Album> findByTitle(String query) {
+	public Album findByTitle(String title) {
+		return albumDao.findByTitle(title);
+	}
+
+	@Override
+	public List<Album> findByTitleLike(String query) {
 		List<String> patterns = SearchHelper.splitSearchQuery(query);
-		return albumDao.findByTitle(patterns);
+		return albumDao.findByTitleLike(patterns);
 	}
 
 	@Override

@@ -74,8 +74,14 @@ public class AlbumFacadeImpl implements AlbumFacade {
 	}
 
 	@Override
-	public List<AlbumDTO> findByTitle(String query) {
-		return beanMappingService.mapTo(albumService.findByTitle(query), AlbumDTO.class);
+	public AlbumDTO findByTitle(String title) {
+		Album album = albumService.findByTitle(title);
+		return (album == null) ? null : beanMappingService.mapTo(album, AlbumDTO.class);
+	}
+
+	@Override
+	public List<AlbumDTO> findByTitleLike(String query) {
+		return beanMappingService.mapTo(albumService.findByTitleLike(query), AlbumDTO.class);
 	}
 
 	@Override

@@ -45,9 +45,14 @@ public class GenreServiceImpl implements GenreService {
 	}
 
 	@Override
-	public List<Genre> findByName(String query) {
+	public Genre findByName(String name) {
+		return genreDao.findByName(name);
+	}
+
+	@Override
+	public List<Genre> findByNameLike(String query) {
 		List<String> patterns = SearchHelper.splitSearchQuery(query);
-		return genreDao.findByName(patterns);
+		return genreDao.findByNameLike(patterns);
 	}
 
 	@Override

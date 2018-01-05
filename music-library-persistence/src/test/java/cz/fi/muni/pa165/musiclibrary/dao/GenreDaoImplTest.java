@@ -108,7 +108,7 @@ public class GenreDaoImplTest extends AbstractTestNGSpringContextTests {
 
 	@Test
 	public void testFindByName() {
-		List<Genre> genres = genreDao.findByName(Arrays.asList("%Swing%"));
+		List<Genre> genres = genreDao.findByNameLike(Arrays.asList("%Swing%"));
 		Assert.assertEquals(2, genres.size());
 		Assert.assertTrue(genres.contains(swingGenre));
 		Assert.assertTrue(genres.contains(electroSwingGenre));

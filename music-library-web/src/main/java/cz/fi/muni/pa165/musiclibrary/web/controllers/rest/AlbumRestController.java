@@ -142,6 +142,6 @@ public class AlbumRestController {
 
 	@RequestMapping(value = "/by_title", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public final List<AlbumDTO> findByTitle(@RequestParam("title") String title) {
-		return albumFacade.findByTitle(title);
+		return albumFacade.findByTitleLike(title);
 	}
 }

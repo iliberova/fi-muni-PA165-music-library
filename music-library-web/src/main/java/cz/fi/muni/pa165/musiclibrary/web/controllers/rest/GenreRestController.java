@@ -51,7 +51,7 @@ public class GenreRestController {
 
 	@RequestMapping(value = "/by_name", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public final List<GenreDTO> findByName(@RequestParam("name") String name) {
-		return genreFacade.findByName(name);
+		return genreFacade.findByNameLike(name);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -161,7 +161,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 	public void testFindByTitle() {
 		List<String> pattern = new ArrayList<>();
 		pattern.add("Testovaci album");
-		List<Album> albums = albumDao.findByTitle(pattern);
+		List<Album> albums = albumDao.findByTitleLike(pattern);
 		Assert.assertEquals(albums.size(), 1);
 		Assert.assertTrue(albums.contains(a));
 	}
@@ -170,7 +170,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 	public void testWithNonExistingTitle() {
 		List<String> pattern = new ArrayList<>();
 		pattern.add("avdsfa");
-		List<Album> albums = albumDao.findByTitle(pattern);
+		List<Album> albums = albumDao.findByTitleLike(pattern);
 		Assert.assertEquals(albums.size(), 0);
 		Assert.assertTrue(!albums.contains(a));
 	}

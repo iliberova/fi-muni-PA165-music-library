@@ -125,20 +125,21 @@ public class MusicianController extends BaseController {
 		}
 
 		model.addAttribute("musician", musician);
+		model.addAttribute("musicianForm", musician);
 		return "musician/edit";
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String edit(
 		@PathVariable long id,
-		@Valid @ModelAttribute("musician") MusicianDTO musician,
+		@Valid @ModelAttribute("musicianForm") MusicianDTO musicianForm,
 		BindingResult bindingResult,
 		Model model,
 		RedirectAttributes redirectAttributes,
 		UriComponentsBuilder uriBuilder,
 		Locale locale
 	) {
-		log.debug("edit({})", musician);
+		log.debug("edit({})", musicianForm);
 
 		if (bindingResult.hasErrors()) {
 			for (ObjectError error : bindingResult.getGlobalErrors()) {
@@ -148,15 +149,18 @@ public class MusicianController extends BaseController {
 				model.addAttribute(error.getField() + "_error", true);
 				log.trace("FieldError: {}", error);
 			}
+
+			MusicianDTO musician = musicianFacade.findById(id);
+			model.addAttribute("musician", musician);
 			return "musician/edit";
 		}
 
-		musician.setId(id);
-		musicianFacade.update(musician);
+		musicianForm.setId(id);
+		musicianFacade.update(musicianForm);
 
 		String flashMessage = messageSource.getMessage(
 			"musicians.edit.saved",
-			new Object[]{musician.getName()},
+			new Object[]{musicianForm.getName()},
 			locale
 		);
 
