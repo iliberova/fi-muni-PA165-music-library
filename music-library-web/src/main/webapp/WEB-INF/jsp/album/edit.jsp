@@ -21,7 +21,7 @@
 </jsp:attribute>
 	<jsp:attribute name="body">
 		<form:form method="POST" action="${pageContext.request.contextPath}/album/edit/${album.id}"
-				   modelAttribute="album" cssClass="form-horizontal"
+				   modelAttribute="albumForm" cssClass="form-horizontal"
 				   enctype="multipart/form-data">
 			<div class="form-group ${title_error ? 'has-error' : ''}">
 				<form:label path="title" cssClass="col-sm-2 control-label">
