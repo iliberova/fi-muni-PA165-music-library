@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.musiclibrary.dto.GenreDTO;
 import cz.fi.muni.pa165.musiclibrary.facade.AlbumFacade;
 import cz.fi.muni.pa165.musiclibrary.facade.GenreFacade;
 import cz.fi.muni.pa165.musiclibrary.web.forms.GenreCreateDTOValidator;
+import cz.fi.muni.pa165.musiclibrary.web.forms.GenreDTOValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +115,10 @@ public class GenreController extends BaseController {
 	protected void initBinder(WebDataBinder binder) {
 		if (binder.getTarget() instanceof GenreCreateDTO) {
 			binder.addValidators(new GenreCreateDTOValidator());
+		}
+
+		if (binder.getTarget() instanceof GenreDTO) {
+			binder.addValidators(new GenreDTOValidator());
 		}
 	}
 
