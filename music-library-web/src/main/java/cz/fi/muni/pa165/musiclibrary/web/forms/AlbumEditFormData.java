@@ -23,6 +23,16 @@ public class AlbumEditFormData {
 
 	private byte[] albumArt;
 
+	public static AlbumEditFormData fromAlbumDTO(AlbumDTO albumDTO) {
+		AlbumEditFormData formData = new AlbumEditFormData();
+		formData.setId(albumDTO.getId());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		formData.setReleaseDate(dateFormat.format(albumDTO.getReleaseDate()));
+		formData.setTitle(albumDTO.getTitle());
+		formData.setCommentary(albumDTO.getCommentary());
+		return formData;
+	}
+
 	public Long getId() {
 		return id;
 	}

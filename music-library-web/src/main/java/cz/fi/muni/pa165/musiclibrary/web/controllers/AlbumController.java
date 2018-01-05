@@ -131,7 +131,7 @@ public class AlbumController extends BaseController {
 		}
 
 		model.addAttribute("album", album);
-		model.addAttribute("albumForm", album);
+		model.addAttribute("albumForm", AlbumEditFormData.fromAlbumDTO(album));
 		return "album/edit";
 	}
 
