@@ -153,9 +153,16 @@ public class GenreController extends BaseController {
 		return "genre/edit";
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String edit(@Valid @ModelAttribute("genreUpdate") GenreDTO formBean, BindingResult bindingResult,
-						 Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, Locale loc) {
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	public String edit(
+		@PathVariable long id,
+		@Valid @ModelAttribute("genreUpdate") GenreDTO formBean,
+		BindingResult bindingResult,
+		Model model,
+		RedirectAttributes redirectAttributes,
+		UriComponentsBuilder uriBuilder,
+		Locale loc
+	) {
 		log.debug("update(genreUpdate={})", formBean);
 		//in case of validation error forward back to the the form
 		if (bindingResult.hasErrors()) {
@@ -166,12 +173,14 @@ public class GenreController extends BaseController {
 				model.addAttribute(fe.getField() + "_error", true);
 				log.trace("FieldError: {}", fe);
 			}
+
+			GenreDTO genre = genreFacade.findById(id);
+			model.addAttribute("genre", genre);
 			return "genre/edit";
 		}
-		//update genre
+
 		genreFacade.update(formBean);
-		Long id = formBean.getId();
-		//report success
+
 		redirectAttributes.addFlashAttribute("alert_success", String.format(messageSource.getMessage("genreMessage.successEdit", null, loc), id));
 		return "redirect:" + uriBuilder.path("/genre/detail/{id}").buildAndExpand(id).encode().toUriString();
 	}
