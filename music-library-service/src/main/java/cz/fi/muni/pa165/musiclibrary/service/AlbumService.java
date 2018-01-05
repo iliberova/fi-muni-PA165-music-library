@@ -61,12 +61,20 @@ public interface AlbumService {
 	List<Album> findByGenre(Genre genre);
 
 	/**
+	 * Returns an album with the given title.
+	 *
+	 * @param title the title
+	 * @return the album, or null if does not exist
+	 */
+	Album findByTitle(String title);
+
+	/**
 	 * Returns all albums with a title matching the given search query
 	 *
 	 * @param query the search query
 	 * @return list of albums containing given pattern
 	 */
-	List<Album> findByTitle(String query);
+	List<Album> findByTitleLike(String query);
 
 	/**
 	 * Returns all albums

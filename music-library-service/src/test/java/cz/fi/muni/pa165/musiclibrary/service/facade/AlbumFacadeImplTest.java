@@ -167,7 +167,7 @@ public class AlbumFacadeImplTest extends AbstractTestNGSpringContextTests {
 		em.persist(album22);
 		em.persist(albumReputation);
 
-		List<AlbumDTO> albumDTOs = albumFacade.findByTitle("rep");
+		List<AlbumDTO> albumDTOs = albumFacade.findByTitleLike("rep");
 		Assert.assertEquals(1, albumDTOs.size());
 		Assert.assertTrue(albumDTOs.contains(createAlbumDTO(albumReputation)));
 	}

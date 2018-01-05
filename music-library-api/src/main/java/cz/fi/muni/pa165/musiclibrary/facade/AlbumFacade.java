@@ -61,12 +61,20 @@ public interface AlbumFacade {
 	List<AlbumDTO> findByGenre(Long genreId);
 
 	/**
+	 * Finds an Album with the given title.
+	 *
+	 * @param title the title
+	 * @return the album, or null if does not exist
+	 */
+	AlbumDTO findByTitle(String title);
+
+	/**
 	 * Finds list of Album data objects with a title matching the given search query.
 	 *
 	 * @param query the search query
 	 * @return list of album dtos with given title pattern
 	 */
-	List<AlbumDTO> findByTitle(String query);
+	List<AlbumDTO> findByTitleLike(String query);
 
 	/**
 	 * Finds all album data transfer objects.

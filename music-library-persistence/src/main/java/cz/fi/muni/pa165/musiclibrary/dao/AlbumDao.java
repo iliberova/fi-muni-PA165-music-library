@@ -62,12 +62,20 @@ public interface AlbumDao {
 	List<Album> findByGenre(Genre genre);
 
 	/**
+	 * Returns an album that has the given title.
+	 *
+	 * @param title the title
+	 * @return the album
+	 */
+	Album findByTitle(String title);
+
+	/**
 	 * Returns all albums that contain all the given patterns in their title.
 	 *
 	 * @param patterns the pattern to be found
 	 * @return the list of albums containing the patterns
 	 */
-	List<Album> findByTitle(List<String> patterns);
+	List<Album> findByTitleLike(List<String> patterns);
 
 	/**
 	 * Returns all albums in database

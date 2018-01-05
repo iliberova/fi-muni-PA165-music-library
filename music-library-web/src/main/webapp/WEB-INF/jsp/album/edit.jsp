@@ -67,6 +67,7 @@
 					</button>
 				</div>
 			</div>
+			<form:hidden path="id"/>
 		</form:form>
 	</jsp:attribute>
 </my:pagetemplate>

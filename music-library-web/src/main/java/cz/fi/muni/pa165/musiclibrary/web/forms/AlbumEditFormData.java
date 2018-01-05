@@ -13,6 +13,8 @@ import java.util.Date;
  */
 public class AlbumEditFormData {
 
+	private Long id;
+
 	private String releaseDate;
 
 	private String title;
@@ -20,6 +22,14 @@ public class AlbumEditFormData {
 	private String commentary;
 
 	private byte[] albumArt;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	boolean isReleaseDateFilled() {
 		return releaseDate != null && !releaseDate.isEmpty();

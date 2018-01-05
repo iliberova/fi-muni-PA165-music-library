@@ -63,7 +63,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("genres", genreFacade.findByNameLike(pSearchTerm));
 		model.addAttribute("musicians", musicianFacade.findByName(pSearchTerm));
 		model.addAttribute("songs", songFacade.findByTitle(pSearchTerm));
-		model.addAttribute("albums", albumFacade.findByTitle(pSearchTerm));
+		model.addAttribute("albums", albumFacade.findByTitleLike(pSearchTerm));
 		model.addAttribute("searchTerm", pSearchTerm);
 		return "/search/result";
 	}

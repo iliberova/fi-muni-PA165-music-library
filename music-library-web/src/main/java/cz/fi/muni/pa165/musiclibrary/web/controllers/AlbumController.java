@@ -131,6 +131,7 @@ public class AlbumController extends BaseController {
 		}
 
 		model.addAttribute("album", album);
+		model.addAttribute("albumForm", album);
 		return "album/edit";
 	}
 
@@ -202,11 +203,11 @@ public class AlbumController extends BaseController {
 	@SuppressWarnings("unused")
 	protected void initBinder(WebDataBinder binder) {
 		if (binder.getTarget() instanceof AlbumCreateFormData) {
-			binder.addValidators(new AlbumCreateFormDataValidator());
+			binder.addValidators(new AlbumCreateFormDataValidator(albumFacade));
 		}
 
 		if (binder.getTarget() instanceof AlbumEditFormData) {
-			binder.addValidators(new AlbumEditFormDataValidator());
+			binder.addValidators(new AlbumEditFormDataValidator(albumFacade));
 		}
 	}
 }

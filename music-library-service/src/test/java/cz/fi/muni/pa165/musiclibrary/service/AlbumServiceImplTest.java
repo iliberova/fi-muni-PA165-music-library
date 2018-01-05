@@ -147,8 +147,8 @@ public class AlbumServiceImplTest extends AbstractTestNGSpringContextTests {
 	@Test
 	public void testFindByTitle() {
 		List<Album> albums = Arrays.asList(album22, reputation);
-		when(albumDao.findByTitle(Arrays.asList("%rep%", "%on%"))).thenReturn(albums);
-		Assert.assertSame(albums, albumService.findByTitle("rep on"));
+		when(albumDao.findByTitleLike(Arrays.asList("%rep%", "%on%"))).thenReturn(albums);
+		Assert.assertSame(albums, albumService.findByTitleLike("rep on"));
 	}
 
 	@Test

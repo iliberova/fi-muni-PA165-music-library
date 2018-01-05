@@ -82,7 +82,14 @@ public class AlbumDaoImpl implements AlbumDao {
 	}
 
 	@Override
-	public List<Album> findByTitle(List<String> patterns) {
+	public Album findByTitle(String title) {
+		TypedQuery<Album> query = em.createQuery("SELECT a FROM Album a WHERE a.title = :title", Album.class);
+		query.setParameter("title", title);
+		return query.getSingleResult();
+	}
+
+	@Override
+	public List<Album> findByTitleLike(List<String> patterns) {
 		StringBuilder queryBuilder = new StringBuilder("SELECT a FROM Album a");
 
 		for (int i = 0; i < patterns.size(); i++) {
