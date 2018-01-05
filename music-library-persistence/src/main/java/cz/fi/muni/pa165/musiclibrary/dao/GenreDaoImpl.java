@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.musiclibrary.exceptions.GenreAlreadyExistsException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -54,7 +55,12 @@ public class GenreDaoImpl implements GenreDao {
 	public Genre findByName(String name) {
 		TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g WHERE g.name = :name", Genre.class);
 		query.setParameter("name", name);
-		return query.getSingleResult();
+
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override

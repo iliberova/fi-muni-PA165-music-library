@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
@@ -85,7 +86,12 @@ public class AlbumDaoImpl implements AlbumDao {
 	public Album findByTitle(String title) {
 		TypedQuery<Album> query = em.createQuery("SELECT a FROM Album a WHERE a.title = :title", Album.class);
 		query.setParameter("title", title);
-		return query.getSingleResult();
+
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
