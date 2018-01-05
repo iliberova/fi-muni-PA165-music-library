@@ -21,7 +21,7 @@
 </jsp:attribute>
 <jsp:attribute name="body">
 	<form:form method="post" action="${pageContext.request.contextPath}/musician/edit/${musician.id}"
-			modelAttribute="musician" cssClass="form-horizontal">
+			modelAttribute="musicianForm" cssClass="form-horizontal">
 		<div class="form-group ${name_error ? 'has-error' : ''}">
 			<form:label path="name" cssClass="col-sm-2 control-label">
 				<fmt:message key="musicians.edit.name"/>
